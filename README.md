@@ -1,4 +1,4 @@
- title 	Don't make these mistakes when you're starting out on linux
+	Don't make these mistakes when you're starting out on linux
 	
 
 
