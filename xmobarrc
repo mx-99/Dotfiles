@@ -1,0 +1,62 @@
+-- xmobar config used by Vic Fryzel
+-- Author: Vic Fryzel
+-- https://github.com/vicfryzel/xmonad-config
+
+-- This xmobar config is for a single 4k display (3840x2160) and meant to be
+-- used with the stalonetrayrc-single config.
+--
+-- If you're using a single display with a different resolution, adjust the
+-- position argument below using the given calculation.
+Config { font            = "xft:Ubuntu Mono:weight=bold:pixelsize=16:antialias=true:hinting=true"
+       , additionalFonts = [ "xft:Mononoki:pixelsize=11:antialias=true:hinting=true"
+                           , "xft:Font Awesome 6 Free Solid:pixelsize=12"
+                           , "xft:Font Awesome 6 Brands:pixelsize=12"
+                           ]
+       , bgColor      = "#282c34"
+       , fgColor      = "#ff6c6b"
+       -- Position TopSize and BottomSize take 3 arguments:
+       --   an alignment parameter (L/R/C) for Left, Right or Center.
+       --   an integer for the percentage width, so 100 would be 100%.
+       --   an integer for the minimum pixel height for xmobar, so 24 would force a height of at least 24 pixels.
+       --   NOTE: The height should be the same as the trayer (system tray) height.
+       , position       = TopSize L 100 24
+       , lowerOnStart = True
+       , hideOnStart  = False
+       , allDesktops  = True
+       , persistent   = True
+       --, iconRoot     = "/home/mc/.config/xmobar/xpm-status-icons"  -- default: "."
+       , commands = [
+        Run Weather "KPAO" ["-t","<tempF>F <skyCondition>","-L","64","-H","77","-n","#CEFFAC","-h","#FFB6B0","-l","#96CBFE"] 36000,
+        Run MultiCpu ["-t","<fn=2>\xf108</fn> Cpu: <total0> <total1> <total2> <total3>","-L","30","-H","60","-h","#FFB6B0","-l","#CEFFAC","-n","#FFFFCC","-w","3"] 10,
+      -- Cpu usage in percent
+    --  Run Cpu ["-t", "<fn=2>\xf108</fn>  cpu: (<total>%)","-H","50","--high","red"] 20,
+
+
+      -- Get kernel version (script found in .local/bin)
+      --  Run Com "/.local/bin/kernel" [] "kernel" 36000,
+	
+      -- Battery
+         Run BatteryP ["BAT0"] ["-t", "<acstatus><watts> (<left>%)"] 360,
+
+	-- Uptime
+        Run Uptime ["-t", "uptime: <days>d <hours>h"] 360,
+
+	-- Disk space free
+       Run DiskU [("/", "<fn=2>\xf0c7</fn>  sdd: <free> free")] [] 60,
+   
+       -- Check for pacman updates (script found in .local/bin)
+        Run Com ".local/bin/pacupdate" [] "pacupdate" 36000,
+
+
+        Run Memory ["-t","Mem: <usedratio>%","-H","8192","-L","4096","-h","#FFB6B0","-l","#CEFFAC","-n","#FFFFCC"] 10,
+       -- Run Swap ["-t","Swap: <usedratio>%","-H","1024","-L","512","-h","#FFB6B0","-l","#CEFFAC","-n","#FFFFCC"] 10,
+        Run Network "wlan0" ["-t","Net: <rx>, <tx>","-H","200","-L","10","-h","#FFB6B0","-l","#CEFFAC","-n","#FFFFCC"] 10,
+        Run Date "%a %b %_d %l:%M" "date" 50,
+       --Run Com "getMasterVolume" [] "volumelevel" 10,
+        Run StdinReader 
+
+ -- %swap% Vol: <fc=#b2b2ff>%volumelevel%</fc> <fc=#c678dd>%bell%  <action=`alacritty -e sudo pacman -Syu`>%pacupdate%</action></fc>
+    ],
+    sepChar = "%",
+    alignSep = "}{",
+    template = "%StdinReader% }{<fc=#ecbe7b>%multicpu%</fc> <fc=#ff6c6b>%disku%</fc>  <fc=#a9a1e1>%memory%</fc>   <fc=#98be65>%wlan0%</fc>  <fc=#46d9ff>%battery%</fc>  <fc=#c678dd>%uptime%</fc>  <fc=#FFFFCC>%date%</fc> "
