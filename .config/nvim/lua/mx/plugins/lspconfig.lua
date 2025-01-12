@@ -38,6 +38,16 @@ return {
 					capabilities = capabilities,
 				})
 			end,
+
+			-- Specific handler for clangd (C/C++)
+			["clangd"] = function()
+				nvim_lsp["clangd"].setup({
+					on_attach = on_attach,
+					capabilities = capabilities,
+					-- Add any custom arguments to clangd if needed
+					cmd = { "clangd", "--background-index" }, -- For better indexing
+				})
+			end,
 			["ts_ls"] = function()
 				nvim_lsp["ts_ls"].setup({
 					on_attach = on_attach,
