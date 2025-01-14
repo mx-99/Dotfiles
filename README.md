@@ -24,6 +24,3 @@ The repository is organized as follows:
 ├── .git                        # Git repository files
 └── README.md                   # This file
 ```
-
-
-Happy hacking! 😎
